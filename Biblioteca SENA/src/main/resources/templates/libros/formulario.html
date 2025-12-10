@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title th:text="${libro.id == null} ? 'Nuevo Libro' : 'Editar Libro'"></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style> body { padding: 40px; background-color: #f8f9fa; } </style>
+</head>
+<body>
+
+<nav class="navbar navbar-dark bg-primary mb-5 rounded">
+    <div class="container-fluid">
+        <span class="navbar-brand mb-0 h1">Biblioteca SENA</span>
+    </div>
+</nav>
+
+<div class="container w-75">
+    <h1 class="mb-4" th:text="${libro.id == null} ? 'Agregar Nuevo Libro' : 'Editar Libro'"></h1>
+
+    <form th:action="@{/libros/guardar}" th:object="${libro}" method="post">
+
+        <input type="hidden" th:field="*{id}">
+
+        <div class="mb-3">
+            <label class="form-label">Título *</label>
+            <input type="text" class="form-control" th:field="*{titulo}" th:classappend="${#fields.hasErrors('titulo') ? 'is-invalid' : ''}" required>
+            <div th:if="${#fields.hasErrors('titulo')}" class="invalid-feedback d-block" th:errors="*{titulo}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Autor *</label>
+            <input type="text" class="form-control" th:field="*{autor}" th:classappend="${#fields.hasErrors('autor') ? 'is-invalid' : ''}" required>
+            <div th:if="${#fields.hasErrors('autor')}" class="invalid-feedback d-block" th:errors="*{autor}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">ISBN * (10 o 13 dígitos)</label>
+            <input type="text" class="form-control" th:field="*{isbn}" th:classappend="${#fields.hasErrors('isbn') ? 'is-invalid' : ''}" placeholder="Ej: 978-3-16-148410-0 o 9783161484100" required>
+            <div th:if="${#fields.hasErrors('isbn')}" class="invalid-feedback d-block" th:errors="*{isbn}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Año Publicación * (1500-2025)</label>
+            <input type="number" class="form-control" th:field="*{anioPublicacion}" th:classappend="${#fields.hasErrors('anioPublicacion') ? 'is-invalid' : ''}" min="1500" max="2025" required>
+            <div th:if="${#fields.hasErrors('anioPublicacion')}" class="invalid-feedback d-block" th:errors="*{anioPublicacion}"></div>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Disponible</label>
+            <select class="form-select" th:field="*{disponible}">
+                <option value="true">Sí</option>
+                <option value="false">No</option>
+            </select>
+            <div th:if="${#fields.hasErrors('disponible')}" class="invalid-feedback d-block" th:errors="*{disponible}"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg">Guardar</button>
+        <a th:href="@{/libros}" class="btn btn-secondary btn-lg ms-3">Cancelar</a>
+    </form>
+
+    <footer class="text-center mt-5 text-muted">
+        Evidencia GA7-220501096-AA3-EV02 • Juan Andrés Cruz Rico • Ficha 183 • 2025
+    </footer>
+</div>
+
+</body>
+</html>
